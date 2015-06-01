@@ -13,7 +13,7 @@ os.system('cls')
 # Multicast settings
 
 MULTICAST_ADDY = '224.3.29.71'
-MULTICAST_PORT = 32767
+MULTICAST_PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 32767
 
 bc_send = bagelchat_send(MULTICAST_ADDY, MULTICAST_PORT)
 bc_recv = bagelchat_recv(MULTICAST_ADDY, MULTICAST_PORT)
