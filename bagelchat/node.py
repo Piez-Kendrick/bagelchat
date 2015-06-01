@@ -1,17 +1,33 @@
-from socket import *
-import sys, time
+import os
+import socket
+import struct
+import sys
+import thread
 
-UDP_IP='127.0.0.1'
-UDP_PORT=5005
+from send import *
+from recv import *
 
-s=socket(AF_INET, # Internet
-    SOCK_DGRAM) # UDP
+# Clears screen
+os.system('cls')
+
+# Multicast settings
+
+MULTICAST_ADDY = '224.3.29.71'
+MULTICAST_PORT = 32767
+
+bc_send = bagelchat_send(MULTICAST_ADDY, MULTICAST_PORT)
+bc_recv = bagelchat_recv(MULTICAST_ADDY, MULTICAST_PORT)
+        
+
+# Multithread
+
+# Starts receiving data
+try:
+    thread.start_new_thread(bc_recv.recv_data, ())
     
-s.bind((UDP_IP, 0))
-
-s.setsockopt(SOL_SOCKET, SO_BROADCAST, 1)
-
-while 1:
-    data=repr(time.time()) + '\n'
-    s.sendto(data, (UDP_ID, UDP_PORT))
-    time.sleep(2)
+except Exception as e:
+    print e
+   
+# Waits for user input to send data
+while True:
+    bc_send.send_data(raw_input())
