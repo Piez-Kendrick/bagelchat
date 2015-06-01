@@ -8,9 +8,13 @@ import thread
 '''
 class bagelchat_send:
     MULTICAST_GROUP = None
+    username = None
     socket_send = None
 
-    def __init__(self, MULTICAST_ADDY, MULTICAST_PORT):
+    def __init__(self, MULTICAST_USERNAME, MULTICAST_ADDY, MULTICAST_PORT):
+        self.username = MULTICAST_USERNAME
+        
+        # Initalizes multicast group
         self.MULTICAST_GROUP = (MULTICAST_ADDY, MULTICAST_PORT)
 
         # Create the datagram socket
@@ -25,4 +29,4 @@ class bagelchat_send:
         self.socket_send.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, TTL)
 
     def send_data(self, _data):
-        sent = self.socket_send.sendto(_data, self.MULTICAST_GROUP)
+        sent = self.socket_send.sendto((self.username + ': ' + _data), self.MULTICAST_GROUP)

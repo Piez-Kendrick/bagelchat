@@ -8,8 +8,7 @@ import thread
     # Recv
 '''
 class bagelchat_recv:
-    chat_logs = []
-    
+    chat_logs = []    
     NODE_ADDY = None
     socket_recv = None
     is_receiving = True
