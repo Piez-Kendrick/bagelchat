@@ -27,7 +27,7 @@ try:
     while True:
         print >>sys.stderr, 'waiting to receive'
         try:
-            data, server = sock.recvfrom(1024)
+            data, server = sock.recvfrom(16)
         except socket.timeout:
             print >>sys.stderr, 'timed out, no more responses'
             break
