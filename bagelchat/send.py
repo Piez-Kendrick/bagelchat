@@ -2,6 +2,7 @@ import socket
 import struct
 import sys
 import thread
+from cipher import *
 
 '''
     # Send
@@ -29,4 +30,4 @@ class bagelchat_send:
         self.socket_send.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, TTL)
 
     def send_data(self, _data):
-        sent = self.socket_send.sendto((self.username + ': ' + _data), self.MULTICAST_GROUP)
+        sent = self.socket_send.sendto((mutlicast_encrypt(self.username + ': ' + _data)), self.MULTICAST_GROUP)

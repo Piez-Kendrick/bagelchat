@@ -3,6 +3,7 @@ import socket
 import struct
 import sys
 import thread
+from cipher import *
 
 '''
     # Recv
@@ -34,7 +35,7 @@ class bagelchat_recv:
     def recv_data(self):
         while True:            
             data, address = self.socket_recv.recvfrom(2048)
-            self.chat_logs.append(('<%s>: %s' %(address[0], data)))
+            self.chat_logs.append(('<%s> %s' %(address[0], mutlicast_decrypt(data))))
             
             # Clears the screen
             os.system('cls')

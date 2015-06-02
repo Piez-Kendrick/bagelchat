@@ -13,5 +13,5 @@ setup(
     keywords='lan chat secure',
     url='http://kendricktan.com',
     packages=['bagelchat'],
-    long_description=read('README.txt'),    
+    long_description=read('README.txt'),
 )
