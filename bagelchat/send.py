@@ -12,6 +12,7 @@ class bagelchat_send:
     username = None
     socket_send = None
 
+    # Constructor
     def __init__(self, MULTICAST_USERNAME, MULTICAST_ADDY, MULTICAST_PORT):
         self.username = MULTICAST_USERNAME
         
@@ -28,6 +29,17 @@ class bagelchat_send:
         # local network segment
         TTL = struct.pack('b', 1)
         self.socket_send.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, TTL)
+        
+        # Broadcast message of user joining rooms
+        sent = self.socket_send.sendto((mutlicast_encrypt(self.username + ' has joined the chat!')), self.MULTICAST_GROUP)
 
+    # Destructor
+    def __del__(self):
+        sent = self.socket_send.sendto((mutlicast_encrypt(self.username + ' has quit the chat!')), self.MULTICAST_GROUP)
+        
+        # Closes and shutdowns socket
+        socket_send.shutdown()
+        socket_send.close()
+    
     def send_data(self, _data):
         sent = self.socket_send.sendto((mutlicast_encrypt(self.username + ': ' + _data)), self.MULTICAST_GROUP)

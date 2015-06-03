@@ -14,6 +14,7 @@ class bagelchat_recv:
     socket_recv = None
     is_receiving = True
     
+    # Constructor
     def __init__(self, MULTICAST_ADDY, MULTICAST_PORT):
         self.NODE_ADDY = ('0.0.0.0', MULTICAST_PORT) # Listens to all interfaces
 
@@ -32,6 +33,13 @@ class bagelchat_recv:
         MREQ = struct.pack('4sL', GROUP, socket.INADDR_ANY)
         self.socket_recv.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, MREQ)
 
+    # Destructor
+    def __del__(self):
+        # Closes and shutdowns socket
+        socket_recv.shutdown()
+        socket_recv.close()
+        
+
     def recv_data(self):
         while True:            
             data, address = self.socket_recv.recvfrom(2048)
@@ -43,3 +51,4 @@ class bagelchat_recv:
             # Prints everything in the log
             for chat_log in self.chat_logs:
                 print chat_log
+                

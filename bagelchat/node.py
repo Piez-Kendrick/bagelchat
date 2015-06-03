@@ -35,5 +35,7 @@ except Exception as e:
     print e
    
 # Keeps sending data
-while True:
-    bc_send.send_data(raw_input())
+_data = None
+while _data != '/quit':
+    _data = raw_input()
+    bc_send.send_data(_data)   
