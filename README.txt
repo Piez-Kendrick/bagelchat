@@ -1,6 +1,8 @@
 '''
-	# bagelchat - Made by Kendrick
-	# CLI Lan Chat
+	# bagelchat - Made by Kendrick ilkkkkkkkkkkk
+	# Credits:
+		- Desiree forthe brilliant name idea
+	# CLI/GUI Lan Chat
 '''
 
 '''
