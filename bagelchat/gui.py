@@ -50,8 +50,9 @@ class bagelchat_gui(Tk, bagelchat_send, bagelchat_recv):
     # recvs chat from other user
     def on_recv(self):        
         while True:
-            _data = bagelchat_recv.get_recv_data(self)+'\n'            
-            self.log.insert(END, _data)
+            _data = bagelchat_recv.get_recv_data(self)
+            if _data is not None:
+                self.log.insert(END, _data+'\n')
             
     
 # Start's gui main loop and multi-threads additional functions

@@ -8,9 +8,7 @@ from cipher import *
 '''
     # Recv
 '''
-class bagelchat_recv:
-    chat_logs = []    
-    
+class bagelchat_recv:   
     # Constructor
     def __init__(self, MULTICAST_ADDY, MULTICAST_PORT):
         self.NODE_ADDY = ('0.0.0.0', MULTICAST_PORT) # Listens to all interfaces
@@ -39,4 +37,14 @@ class bagelchat_recv:
     # returns recv data (for GUI)        
     def get_recv_data(self):        
         data, address = self.socket_recv.recvfrom(2048)
-        return ('<%s> %s' %(address[0], mutlicast_decrypt(data)))
+        # If data is not handshake key, we treat it as a normal key
+        if HANDSHAKE_KEY not in mutlicast_decrypt(data):
+            return ('<%s> %s' %(address[0], mutlicast_decrypt(data)))
+        
+        # else its a new user, and we need to update the number of users online
+        # check for the received ip address in our existing database
+        # if its not in our existing database then its a new user
+        # and we need to send our own handshake
+        else:
+            print 'handshake key!'
+            return None

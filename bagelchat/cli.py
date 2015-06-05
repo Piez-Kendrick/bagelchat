@@ -15,15 +15,17 @@ class bagelchat_cli(bagelchat_send, bagelchat_recv):
     def update_chat(self):
         while True:
             # Gets and appends data from multicast
-            _data = bagelchat_recv.get_recv_data(self)        
-            self.chat_logs.append(_data)
+            _data = bagelchat_recv.get_recv_data(self)       
             
-            # Clears the screen
-            os.system('cls')
-            
-            # Prints everything in the log
-            for chat_log in self.chat_logs:
-                print chat_log
+            if _data is not None:
+                self.chat_logs.append(_data)
+                
+                # Clears the screen
+                os.system('cls')
+                
+                # Prints everything in the log
+                for chat_log in self.chat_logs:
+                    print chat_log
         
 
 # Start's cli main loop and multi-threads additional functions
