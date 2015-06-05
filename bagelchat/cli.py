@@ -11,12 +11,17 @@ class bagelchat_cli(bagelchat_send, bagelchat_recv):
         bagelchat_send.__init__(self, MULTICAST_USERNAME, MULTICAST_ADDY, MULTICAST_PORT)
         bagelchat_recv.__init__(self, MULTICAST_ADDY, MULTICAST_PORT)
         
+        # sends handshake to everyone to update user list
+        #bagelchat_send.send_handshake(self)
+        
     # updates chat screen
     def update_chat(self):
         while True:
             # Gets and appends data from multicast
             _data = bagelchat_recv.get_recv_data(self)       
             
+            # if data is none, resend handshake cause that means we just received a handshake 
+            # from a new user
             if _data is not None:
                 self.chat_logs.append(_data)
                 
@@ -26,6 +31,9 @@ class bagelchat_cli(bagelchat_send, bagelchat_recv):
                 # Prints everything in the log
                 for chat_log in self.chat_logs:
                     print chat_log
+                    
+            else:                
+                bagelchat_send.send_handshake(self)
         
 
 # Start's cli main loop and multi-threads additional functions

@@ -12,6 +12,9 @@ class bagelchat_gui(Tk, bagelchat_send, bagelchat_recv):
         bagelchat_send.__init__(self, MULTICAST_USERNAME, MULTICAST_ADDY, MULTICAST_PORT)
         bagelchat_recv.__init__(self, MULTICAST_ADDY, MULTICAST_PORT)
         
+        # sends handshake to everyone to update user list
+        #bagelchat_send.send_handshake(self)
+        
         # Keeps an instance of the parent
         self.parent = parent
         
@@ -51,8 +54,13 @@ class bagelchat_gui(Tk, bagelchat_send, bagelchat_recv):
     def on_recv(self):        
         while True:
             _data = bagelchat_recv.get_recv_data(self)
+            
+            # If received data is none, resend 'handshake' to everyone
             if _data is not None:
                 self.log.insert(END, _data+'\n')
+                
+            else:
+                bagelchat_send.send_handshake(self)
             
     
 # Start's gui main loop and multi-threads additional functions
