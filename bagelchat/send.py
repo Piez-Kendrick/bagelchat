@@ -38,8 +38,9 @@ class bagelchat_send:
         sent = self.socket_send.sendto((mutlicast_encrypt(self.username + ' has quit the chat!')), self.MULTICAST_GROUP)
         
         # Closes and shutdowns socket
-        socket_send.shutdown()
-        socket_send.close()
+        self.socket_send.shutdown(socket.SHUT_WR)
+        self.socket_send.close()
     
-    def send_data(self, _data):
-        sent = self.socket_send.sendto((mutlicast_encrypt(self.username + ': ' + _data)), self.MULTICAST_GROUP)
+    # send data to multicast
+    def send_data(self, _data):        
+        sent = self.socket_send.sendto((mutlicast_encrypt(self.username + ': ' + _data)), self.MULTICAST_GROUP)           

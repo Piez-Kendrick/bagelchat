@@ -13,10 +13,10 @@ python node.py [username] [mutlicast_address] [mutlicast_port]
 '''
 
 To do:	
+	- Knows how many user is online (for GUI)
 	- Custom commands e.g. /quit, /asciiart, /flipcoin, etc
 	- Make python arguments nicer
-	- Build 'rooms' for multicasting
-	- Build GUI
+	- Build 'rooms' for multicasting	
 	- Build a chat bot?
 
 To fix:
@@ -29,3 +29,4 @@ v0.1
 	- Uses multicast to send message
 	- Simple message encryption with key
 	- Notifies when user has entered/leave room	
+	- Build GUI

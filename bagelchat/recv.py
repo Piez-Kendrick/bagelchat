@@ -10,9 +10,6 @@ from cipher import *
 '''
 class bagelchat_recv:
     chat_logs = []    
-    NODE_ADDY = None
-    socket_recv = None
-    is_receiving = True
     
     # Constructor
     def __init__(self, MULTICAST_ADDY, MULTICAST_PORT):
@@ -36,19 +33,10 @@ class bagelchat_recv:
     # Destructor
     def __del__(self):
         # Closes and shutdowns socket
-        socket_recv.shutdown()
-        socket_recv.close()
+        self.socket_recv.shutdown(socket.SHUT_WR)
+        self.socket_recv.close()
         
-
-    def recv_data(self):
-        while True:            
-            data, address = self.socket_recv.recvfrom(2048)
-            self.chat_logs.append(('<%s> %s' %(address[0], mutlicast_decrypt(data))))
-            
-            # Clears the screen
-            os.system('cls')
-            
-            # Prints everything in the log
-            for chat_log in self.chat_logs:
-                print chat_log
-                
+    # returns recv data (for GUI)        
+    def get_recv_data(self):        
+        data, address = self.socket_recv.recvfrom(2048)
+        return ('<%s> %s' %(address[0], mutlicast_decrypt(data)))
