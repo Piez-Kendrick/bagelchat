@@ -52,7 +52,7 @@ class bagelchat_gui(Tk, bagelchat_send, bagelchat_recv):
         self.grid_columnconfigure(0, weight=1)
         
         # Names window
-        self.title('['+ self.multicast_username +'] bagelchat @ ' + self.multicast_addy + ':' + str(self.multicast_port)) + '('+ '1' + 'user(s) online)'           
+        self.title('[bagelchat] ' + self.multicast_username + ' @ ' + self.multicast_addy + ':' + str(self.multicast_port)) + '('+ '1' + 'user(s) online)'           
         
         # Number of users online count
         self.no_users_online = 0
