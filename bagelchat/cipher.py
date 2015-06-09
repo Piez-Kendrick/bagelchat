@@ -1,7 +1,8 @@
 import base64
 
 MULTICAST_KEY = 'pvd6dapQQr6xjz9MhoCEaWH4vcfBEj'
-HANDSHAKE_KEY = 'PdJSDOrdHKJDxkxs4RzWBLFsNC1ZFp'
+HANDSHAKE_KEY_JOIN = 'PdJSDOrdHKJDxkxs4RzWBLFsNC1ZFp'
+HANDSHAKE_KEY_QUIT = 'YdnEwzqnZpeYQOXaG3iYIyvAtSK0If'
 
 def mutlicast_encrypt(plaintext):
     ciphertext = []

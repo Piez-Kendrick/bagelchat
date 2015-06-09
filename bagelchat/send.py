@@ -43,8 +43,13 @@ class bagelchat_send:
     
     # send handshake key to all nodes
     # used to check how many users are online
-    def send_handshake(self):
-        self.socket_send.sendto((mutlicast_encrypt(HANDSHAKE_KEY)), self.MULTICAST_GROUP)
+    def send_handshake_join(self):
+        self.socket_send.sendto((mutlicast_encrypt(self.username + ': ' + HANDSHAKE_KEY_JOIN)), self.MULTICAST_GROUP)
+    
+    # Send exiting handshake
+    def send_handshake_quit(self):
+        self.socket_send.sendto((mutlicast_encrypt(self.username + ': ' + HANDSHAKE_KEY_QUIT)), self.MULTICAST_GROUP)
+    
     
     # send data to multicast
     def send_data(self, _data):        

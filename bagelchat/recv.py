@@ -29,7 +29,7 @@ class bagelchat_recv:
         # on all interfaces
         GROUP = socket.inet_aton(MULTICAST_ADDY)
         MREQ = struct.pack('4sL', GROUP, socket.INADDR_ANY)
-        self.socket_recv.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, MREQ)
+        self.socket_recv.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, MREQ)        
 
     # Destructor
     def __del__(self):
@@ -38,23 +38,33 @@ class bagelchat_recv:
         self.socket_recv.close()
         
     # returns recv data (for GUI)        
-    def get_recv_data(self):        
+    def get_recv_data(self):                        
         data, address = self.socket_recv.recvfrom(2048)
         # If data is not handshake key, we treat it as a normal key
-        #if HANDSHAKE_KEY not in mutlicast_decrypt(data):
-        return ('<%s> %s' %(address[0], mutlicast_decrypt(data)))
+        if HANDSHAKE_KEY_JOIN not in mutlicast_decrypt(data) and HANDSHAKE_KEY_QUIT not in mutlicast_decrypt(data):
+            return ('<%s> %s' %(address[0], mutlicast_decrypt(data))), False, self.users_online
         
         # else its a new user, and we need to update the number of users online
         # check for the received username in our existing database
         # if its not in our existing database then its a new user
         # and we need to send our own handshake
-        '''else:
-            _username = mutlicast_decrypt(data)[0:mutlicast_decrypt(data).find(':')-1]
+        else:
+            _user_enter_exit = False            
+            _username = mutlicast_decrypt(data)[0:mutlicast_decrypt(data).find(':')]
             
-            if _username not in self.username_list:
-                self.username_list.append(_username)
-                self.users_online = self.users_online + 1
-                
-                print self.users_online
-                
-            return None'''
+            # If a new user joined
+            if HANDSHAKE_KEY_JOIN in mutlicast_decrypt(data):                                              
+                if _username not in self.username_list:
+                    self.username_list.append(_username)
+                    self.users_online = len(self.username_list)                     
+                    _user_enter_exit = True
+                    
+            # If a user leaves chat group
+            elif HANDSHAKE_KEY_QUIT in mutlicast_decrypt(data):
+                if _username in self.username_list:
+                    self.username_list.remove(_username)
+                    self.users_online = len(self.username_list)
+                    _user_enter_exit = True  
+                    
+                    
+            return None, _user_enter_exit, self.users_online
