@@ -88,13 +88,14 @@ class bagelchat_gui(Tk, bagelchat_send, bagelchat_recv):
             # If data is not none
             if _data is not None:
                 self.log.insert(END, _data+'\n')
+                self.log.yview(END)
                 
             # If received data is none, resend 'handshake' to everyone    
             else:
                 if _user_enter_exit:                                       
                     
                     # Updates no of users online            
-                    self.users_online_txt.set(str(_users_online) + ' user(s) online')
+                    self.users_online_txt.set(str(_users_online) + ' user(s) online')                    
                                         
                     # If its a new user joining
                     if _users_online > self.no_users_online:
