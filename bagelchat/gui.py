@@ -1,12 +1,16 @@
 from Tkinter import *
 from send import *
 from recv import *
+from resource import *
 
 # Inherits send and recv
 class bagelchat_gui(Tk, bagelchat_send, bagelchat_recv):
     def __init__(self, parent, MULTICAST_USERNAME, MULTICAST_ADDY, MULTICAST_PORT):
         # Initialize Tkinter
-        Tk.__init__(self, parent)                
+        Tk.__init__(self, parent)   
+
+        # Changes Icon
+        self.wm_iconbitmap(ICON_LOCATION)
         
         # Initializes send and recv class
         bagelchat_send.__init__(self, MULTICAST_USERNAME, MULTICAST_ADDY, MULTICAST_PORT)
@@ -31,7 +35,7 @@ class bagelchat_gui(Tk, bagelchat_send, bagelchat_recv):
         self.grid()               
         
         # Handles close window event
-        self.protocol("WM_DELETE_WINDOW", self.on_exit)
+        self.protocol('WM_DELETE_WINDOW', self.on_exit)
         
         # Labels for x amount of users online
         self.users_online_txt = StringVar()
@@ -58,7 +62,7 @@ class bagelchat_gui(Tk, bagelchat_send, bagelchat_recv):
         self.no_users_online = 0
         
         # Is application running
-        self.__running = True
+        self.__running = True              
         
     # Event handler for pressing enter
     def on_press_enter_txtbox(self, event):

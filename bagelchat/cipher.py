@@ -10,7 +10,7 @@ def mutlicast_encrypt(plaintext):
         key_c = MULTICAST_KEY[i % len(MULTICAST_KEY)]
         enc_c = chr((ord(plaintext[i]) + ord(key_c)) % 256)
         ciphertext.append(enc_c)
-    return base64.urlsafe_b64encode("".join(ciphertext))
+    return base64.urlsafe_b64encode(''.join(ciphertext))
 
 def mutlicast_decrypt(ciphertext):
     dec = []
@@ -19,4 +19,4 @@ def mutlicast_decrypt(ciphertext):
         key_c = MULTICAST_KEY[i % len(MULTICAST_KEY)]
         dec_c = chr((256 + ord(ciphertext[i]) - ord(key_c)) % 256)
         dec.append(dec_c)
-    return "".join(dec)
+    return ''.join(dec)
