@@ -11,6 +11,7 @@ from cipher import *
 class bagelchat_recv:  
     users_online = 0
     username_list = []
+    username_dict = {}
     
     # Constructor
     def __init__(self, MULTICAST_ADDY, MULTICAST_PORT):
@@ -50,21 +51,29 @@ class bagelchat_recv:
         # and we need to send our own handshake
         else:
             _user_enter_exit = False            
-            _username = mutlicast_decrypt(data)[0:mutlicast_decrypt(data).find(':')]
+            _username = mutlicast_decrypt(data)[0:mutlicast_decrypt(data).find(':')]                        
             
-            # If a new user joined
-            if HANDSHAKE_KEY_JOIN in mutlicast_decrypt(data):                                              
+            # If we received a handshake key to 'join'
+            if HANDSHAKE_KEY_JOIN in mutlicast_decrypt(data):  
+                # If its a new user
                 if _username not in self.username_list:
                     self.username_list.append(_username)
-                    self.users_online = len(self.username_list)                     
+                    self.users_online = len(self.username_list)                       
                     _user_enter_exit = True
+                
+                # Refresh existing user's responding dictionary
+                self.username_dict[_username] = 0
                     
             # If a user leaves chat group
             elif HANDSHAKE_KEY_QUIT in mutlicast_decrypt(data):
                 if _username in self.username_list:
                     self.username_list.remove(_username)
                     self.users_online = len(self.username_list)
+                    self.username_dict.__delitem__(_username)
                     _user_enter_exit = True  
                     
-                    
+            # Refresh data base to check if any user hasn't been responding for > 5 handshakes
+            for username in self.username_list:                
+                self.username_dict[username] += 1
+                
             return None, _user_enter_exit, self.users_online
